@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Ocean Ponderer — Navigate Dev Logs</title>
+  <style>
+    :root{--bg:#071126;--card:#0b2540;--accent:#2ec4b6;--muted:#9fb3c8;color-scheme:dark}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,ui-sans-serif,system-ui,Segoe UI,Helvetica,Arial;background:linear-gradient(180deg,#051226 0%,#071a2a 60%);color:#e6f0f2}
+    header{padding:48px 24px;text-align:center}
+    .brand{display:inline-block}
+    .logo{width:72px;height:72px;border-radius:16px;background:linear-gradient(135deg,var(--accent),#0ea5a3);display:flex;align-items:center;justify-content:center;font-weight:700;color:#042235;box-shadow:0 6px 24px rgba(6,22,36,.6)}
+    h1{margin:.5rem 0 0;font-size:clamp(1.6rem,3.8vw,2.6rem);letter-spacing:-0.02em}
+    p.lead{margin:.5rem 0 0;color:var(--muted)}
+
+    main{max-width:1100px;margin:32px auto;padding:24px}
+    .search{display:flex;gap:12px;margin:18px 0}
+    .search input{flex:1;padding:12px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.02);color:inherit}
+    .search button{padding:12px 16px;background:var(--accent);border:none;border-radius:10px;color:#042235;font-weight:600;cursor:pointer}
+
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+    .card{background:linear-gradient(180deg,rgba(255,255,255,.02),transparent);padding:16px;border-radius:12px;border:1px solid rgba(255,255,255,.03)}
+    .meta{font-size:.85rem;color:var(--muted);margin-bottom:8px}
+    .title{font-weight:700;margin:0 0 8px}
+    .desc{margin:0;color:var(--muted);font-size:.95rem}
+
+    footer{max-width:1100px;margin:40px auto 80px;padding:24px;color:var(--muted);font-size:.9rem}
+
+    /* small interactive demo styles */
+    .sea{height:180px;border-radius:12px;overflow:hidden;background:linear-gradient(180deg,rgba(46,196,182,.06),transparent);display:flex;align-items:center;justify-content:center;color:var(--muted)}
+
+    @media (max-width:520px){header{padding:28px 12px}.logo{width:56px;height:56px}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <div class="logo">OP</div>
+    </div>
+    <h1>Ocean Ponderer</h1>
+    <p class="lead">Navigate other people's dev logs — explore voyages of ideas, code, and experiments.</p>
+  </header>
+
+  <main>
+    <div class="search" role="search">
+      <input id="q" placeholder="Search by author, tag, or keyword (e.g. webpack, rust, deploy)" />
+      <button id="go">Navigate</button>
+    </div>
+
+    <section class="grid" id="logs">
+      <!-- Example dev log cards; in a real site these would be dynamic -->
+      <article class="card">
+        <div class="meta">by marina.dev • 12 days ago • #frontend</div>
+        <div class="title">Taming the CSS sea: component-first styling</div>
+        <p class="desc">Lessons and patterns for building resilient UI components with CSS and minimal frameworks.</p>
+      </article>
+
+      <article class="card">
+        <div class="meta">by old_sailor • 2 months ago • #systems</div>
+        <div class="title">Shipshape: optimizing Rust services for latency</div>
+        <p class="desc">Micro-benchmarks, profiling tips, and pragmatic trade-offs when pushing for sub-ms tail latency.</p>
+      </article>
+
+      <article class="card">
+        <div class="meta">by devnode • yesterday • #devops</div>
+        <div class="title">Anchors away: resilient CI/CD for tiny teams</div>
+        <p class="desc">Patterns to keep deployments predictable without expensive tools or heroic on-call rotations.</p>
+      </article>
+
+      <article class="card">
+        <div class="meta">by deepdive • 6 months ago • #ai</div>
+        <div class="title">Currents of change: grounding LLMs with live data</div>
+        <p class="desc">Experiments on retrieval augmentation and evaluation of freshness in model responses.</p>
+      </article>
+    </section>
+
+    <div style="margin-top:22px" class="sea" id="preview">Select a dev log to preview the voyage</div>
+  </main>
+
+  <footer>
+    Tip: try searching for a name, tag, or technology and press Navigate. This is a frontpage demo; links open previews instead of external sites.
+  </footer>
+
+  <script>
+    // Minimal interactive behavior for demo
+    const logs = document.querySelectorAll('#logs .card');
+    const preview = document.getElementById('preview');
+    const q = document.getElementById('q');
+    const go = document.getElementById('go');
+
+    logs.forEach(card=>card.addEventListener('click',()=>{
+      preview.textContent = card.querySelector('.title').textContent + ' — ' + card.querySelector('.meta').textContent;
+      card.style.outline = '2px solid rgba(46,196,182,.12)';
+      setTimeout(()=>card.style.outline='none',900);
+    }));
+
+    go.addEventListener('click',()=>{
+      const term = q.value.trim().toLowerCase();
+      if(!term){ preview.textContent = 'Try searching for a tag or author.'; return }
+      // naive filter demo: highlight first match
+      const found = Array.from(logs).find(c=> (c.textContent||'').toLowerCase().includes(term));
+      if(found){ found.click(); found.scrollIntoView({behavior:'smooth',block:'center'}); }
+      else preview.textContent = 'No logs found for “'+term+'”';
+    });
+  </script>
+</body>
+</html>
