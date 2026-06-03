@@ -1,0 +1,12 @@
+# This is the all new verion of Unreal Eninge 2.0.0 (Full Release 1) !!! #
+# - 
+# This is the all new jump, coming from the UE2 Beta Public Release (UE2 1.9)
+# We are proud to announce the following new additions to the Engine:
+# 1+ Imrpoved Graphic Fidelity
+# 2+ Fixed math
+# 3+ Integrated HomeBrewUE2B into the official code index
+# 4- Removed all instances of the "UE2B/sys/timescale.js not found!" error strands
+# And many more !!!
+# - 
+# Have fun deving ;)
+# -George "UnrealGJ.Dev" Jeremy
